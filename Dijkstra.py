@@ -113,31 +113,33 @@ class weighted_digraph:
         source.distance = 0
         #Create a todo set and add source to it
         todo = set()
+        todo.add(source)
         #While there is something to do
             #Find the node with the minimum distance
-        while self.__nodes:
-            min_distance = None
+        while todo:
+            min_node = None
             min = float("inf")
             for node in self.__nodes:
                 if node.distance < min:
+                    min = node.distance
                     min_distance = node
             #Remove it from the todo set
             todo.remove(min_distance)
             #For each of the edges in the minimum distance node
                 #Calculate a possible new distance to the adjacent
                     #node
-            for edge in min_distance.are_adjacent:
-                new_distance = min_distance.distance() + min_distance(edge)
+            for edge in min_distance.edges:
+                new_distance = min_distance.distance() + min_distance.are_adjacent.to_node.weight(edge)
                 #If the new distance is less than the previous
                     #distance
-                if new_distance < edge.distance():
+                if new_distance < edge.to_node.distance():
                     #Set the distance to the newly calculated
                         #distance and set the previous reference to the
                         #node we just choose
-                    edge.distance(new_distance)
-                    edge.prev(min_distance)
+                    edge.to_node.distance(new_distance)
+                    edge.to_node.prev(min_distance)
                     #Add the node to the todo set
-                    todo = edge.min_distance()
+                    todo.add(new_distance, min_distance)
         result = []
         if not track_prev:
             ''' For each node, create a list where the first element
